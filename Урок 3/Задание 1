@@ -3,6 +3,5 @@ print('GloAcademy')
 print()
 print('GloAcademy')
 
-
 '''2 способ'''
-print('GloAcademy','GloAcademy',sep="\n\n")
+print('GloAcademy', 'GloAcademy', sep="\n\n")
