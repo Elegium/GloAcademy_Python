@@ -1,0 +1,8 @@
+'''1 способ'''
+print('GloAcademy')
+print()
+print('GloAcademy')
+
+
+'''2 способ'''
+print('GloAcademy','GloAcademy',sep="\n\n")
