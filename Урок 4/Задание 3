@@ -1,0 +1,6 @@
+num = int(input())
+third_digit = num % 10
+second_digit = (num // 10) % 10
+first_digit = num // 100
+print('Сумма цифр числа', num, 'равна', third_digit + second_digit + first_digit)
+print('Произведение цифр числа', num, 'равно', third_digit * second_digit * first_digit)
