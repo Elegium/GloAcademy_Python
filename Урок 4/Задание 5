@@ -1,0 +1,2 @@
+second = int(input())
+print(second, 'секунд - это',(second // 3600), 'час', (second % 3600) // 60, 'минут', second % 60, 'сек')
