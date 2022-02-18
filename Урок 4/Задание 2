@@ -1,0 +1,6 @@
+num1, num2 = int(input()), int(input())
+print(num1, 'умноженное', num2, 'равно', num1 * num2)
+print(num1, 'деленное', num2, 'равно', num1 / num2)
+print(num1, 'нацело деленное', num2, 'равно', num1 // num2)
+print('Остаток от деления', num1, 'на', num2, 'равно', num1 % num2)
+print(num1, 'в степени', num2, 'равно', num1 ** num2)
