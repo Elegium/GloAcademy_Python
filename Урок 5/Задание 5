@@ -1,3 +1,4 @@
+from math import ceil
 k = int(input())
 m = int(input())
-print(k // m)
+print(ceil(k/m))
