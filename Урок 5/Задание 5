@@ -1,4 +1,10 @@
-from math import ceil
+from math import ceil, floor
 k = int(input())
 m = int(input())
-print(ceil(k/m))
+v = k / m
+if v >= 0.5:
+    print(ceil(v))
+elif v <= 0.5:
+    print(floor(v))
+else:
+    print(v)
