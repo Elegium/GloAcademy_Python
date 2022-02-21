@@ -1,0 +1,7 @@
+ticket = int(input())
+sum_first_three = (ticket // 100000) + ((ticket // 10000) % 10) + ((ticket // 1000) % 10)
+sum_last_three = (ticket % 10) + ((ticket // 10) % 10) + ((ticket // 100) % 10)
+if sum_first_three == sum_last_three:
+    print('Билет', ticket, 'счастливый')
+else:
+    print('Билет', ticket, 'НЕсчастливый')
