@@ -1,0 +1,5 @@
+melon_weight = int(input())
+if 1 <= melon_weight <= 100 and melon_weight % 2 == 0 and melon_weight != 2:
+    print('YES')
+else:
+    print('NO')
