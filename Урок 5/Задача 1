@@ -1,0 +1,2 @@
+password, replay_password = input(), input()
+print('Все окей!' if password == replay_password else 'Пароли не совпадают!')
