@@ -1,0 +1,10 @@
+num = int(input())
+if 0 <= num <= 36:
+    if num == 0:
+        print('Зеленый')
+    elif ((1 <= num <= 10 or 19 <= num <= 28) and num % 2 != 0) or ((11 <= num <= 18 or 29 <= num <= 36) and num % 2 == 0):
+        print('Красный')
+    else:
+        print('Черный')
+else:
+    print('ошибка ввода')
