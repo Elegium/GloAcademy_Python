@@ -1,0 +1,12 @@
+article_1, article_2, article_3 = input(), input(), input()
+if len(article_1) > len(article_2):
+    if len(article_1) > len(article_3):
+        print(article_1)
+    else:
+        print(article_3)
+else:
+    if len(article_2) > len(article_1):
+        if len(article_2) > len(article_3):
+            print(article_2)
+        else:
+            print(article_3)
