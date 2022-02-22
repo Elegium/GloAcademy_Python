@@ -1,0 +1,2 @@
+soccer_team = input()
+print(soccer_team * 5)
