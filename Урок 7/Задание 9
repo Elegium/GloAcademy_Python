@@ -1,0 +1,6 @@
+n, flag = int(input()), False
+for i in range(n):
+    num = int(input())
+    if num % 2 != 0:
+        flag = True
+print('YES' if flag == True else 'NO')
