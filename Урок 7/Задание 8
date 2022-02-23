@@ -1,0 +1,9 @@
+n, min_digit, max_digit = int(input()), 10 ** 6, 0
+for i in range(n):
+    num = int(input())
+    if num > max_digit:
+        max_digit = num
+    if num < min_digit:
+        min_digit = num
+print('Минимум равен', min_digit)
+print('Максимум равен', max_digit)
