@@ -1,0 +1,7 @@
+a, total = int(input()), 0
+num = a
+while num != 0:
+    last_digit = num % 10
+    total += last_digit
+    num //= 10
+print('YES' if a % total == 0 else 'NO')
