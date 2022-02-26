@@ -1,0 +1,6 @@
+num, total, count_num = int(input()), 0, 0
+while num != 0:
+    total += num
+    count_num += 1
+    num = int(input())
+print(int(total / count_num))
