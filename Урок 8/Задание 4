@@ -1,0 +1,13 @@
+a, count, min_digit, max_digit = int(input()), 0, 0, 0
+while a != 0:
+    last_digit = a % 10
+    if count == 0:
+        min_digit, max_digit = last_digit, last_digit
+    if min_digit > last_digit:
+        min_digit = last_digit
+    if max_digit < last_digit:
+        max_digit = last_digit
+    a //= 10
+    count += 1
+print('Максимальная цифра равна', max_digit)
+print('Минимальная цифра равна', min_digit)
