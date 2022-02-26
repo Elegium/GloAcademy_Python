@@ -1,0 +1,11 @@
+num, total_positive, total_negative = int(input()), 0, 0
+while num != 0:
+    if num > 0:
+        total_positive += 1
+    if num < 0:
+        total_negative += 1
+    num = int(input())
+if total_positive == 0 or total_negative == 0:
+    print(0)
+else:
+    print(int(total_positive / total_negative))
