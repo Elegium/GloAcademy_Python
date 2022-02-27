@@ -1,0 +1,8 @@
+n, sum_digit, sum_sum = int(input()), 0, 0
+while n != 0:
+    sum_digit += n % 10
+    n //= 10
+while sum_digit != 0:
+    sum_sum += sum_digit % 10
+    sum_digit //= 10
+print(sum_sum)
