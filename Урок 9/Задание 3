@@ -1,0 +1,8 @@
+a, flag = int(input()), False
+while a != 0:
+    last_digit = a % 10
+    if last_digit == 1:
+        flag = True
+        break
+    a //= 10
+print('YES' if flag else 'NO')
