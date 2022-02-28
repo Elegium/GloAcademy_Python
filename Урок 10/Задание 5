@@ -1,0 +1,5 @@
+char_fist, char_last = input(), input()
+if char_fist > char_last:
+    char_fist, char_last = char_last, char_fist
+for i in range(ord(char_fist), ord(char_last) + 1):
+    print(chr(i), end=' ')
