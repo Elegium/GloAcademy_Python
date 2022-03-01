@@ -1,0 +1,6 @@
+numbers = input().split(' ')
+s = []
+for i in numbers:
+    if numbers.count(i) == 1:
+        s.append(i)
+print(*s)
