@@ -1,0 +1,4 @@
+text = [input() for _ in range(int(input()))]
+word = input()
+res = [i for i in text if word.lower() in i.lower()]
+print(res)
