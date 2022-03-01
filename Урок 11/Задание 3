@@ -1,0 +1,9 @@
+ip_adres, flag = input().split('.'), False
+if len(ip_adres) == 4:
+    for i in ip_adres:
+        if len(i) <= 3 and 0 <= int(i) <= 255:
+            flag = True
+        else:
+            flag = False
+            break
+print('Yes' if flag else 'NO')
