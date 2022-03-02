@@ -1,0 +1,11 @@
+def total(count):
+    first_price = 100
+    next_price = 50
+    if count_product == 1:
+        return first_price
+    else:
+        return first_price + (next_price * (count - 1))
+
+
+count_product = int(input())
+print(total(count_product))
