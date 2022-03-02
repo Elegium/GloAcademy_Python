@@ -1,0 +1,11 @@
+def find_discharge(number):
+    total = 0
+    while number != 0:
+        total += 1
+        number //= 10
+    return total
+
+
+num1 = int(input())
+num2 = int(input())
+print(find_discharge(num1) * find_discharge(num2))
