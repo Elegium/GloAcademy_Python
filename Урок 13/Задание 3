@@ -1,0 +1,83 @@
+from random import randint
+
+
+def is_valid_digit(user_input):
+    if user_input.isdigit():
+        user_number = int(user_input)
+        if 1 <= user_number <= 100:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def is_valid_num(num):
+    if num.isdigit():
+        n = int(num)
+        if 1 <= n <= 100:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+def is_valid_char(s):
+    if s.isalpha():
+        return True
+    else:
+        return False
+
+
+def secret_number(num):
+    secret_number = randint(1, num)
+    return secret_number
+
+
+def play():
+    print('Добро пожаловать в игру "Угадай число"')
+    print('Введите число, чтобы сгенерировать число в диапазоне от 1 до "числа"')
+    while True:
+        num = input()
+        if not is_valid_num(num):
+            continue
+        user_num = int(num)
+        game(secret_number(user_num), user_num)
+        break
+
+def replay():
+    while True:
+        print('Хотите сыграть еще раз??? y - да, n - нет')
+        s = input().lower()
+        if not is_valid_char(s):
+            continue
+        if s in 'y':
+            play()
+            break
+        else:
+            print('Спасибо за игру')
+            break
+
+
+def game(secret_number, user_num):
+    count, flag = 0, False
+    while True:
+        print(f'Введите число от 1 до {user_num}')
+        user_input = input()
+
+        if not is_valid_digit(user_input):
+            continue
+        user_number = int(user_input)
+
+        if user_number < secret_number:
+            print('Загаданное число меньше,чем введение число')
+            count += 1
+        elif user_number > secret_number:
+            print('Загаданное число больше,чем введение число')
+            count += 1
+        else:
+            print(f'УРА! Вы угадали заданное число за {count} попыток')
+            replay()
+            break
+
+play()
