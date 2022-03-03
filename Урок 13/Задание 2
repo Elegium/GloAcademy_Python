@@ -31,7 +31,7 @@ def play():
 
 def replay():
     while True:
-        print('Хотите сыграть еще раз??? y - да, n - нет')
+        print('Хотите сыграть еще раз??? y - да, для выхода нажмите любую клавишу')
         s = input().lower()
         if not is_valid_char(s):
             continue
