@@ -1,0 +1,12 @@
+secret_num, count = 22, 0
+print('Введите число от 1 до 100')
+while True:
+    user_num = int(input())
+    if user_num < secret_num:
+        print('Ваше число меньше загаданного')
+        count += 1
+    elif user_num > secret_num:
+        print('Ваще число больше загаданного')
+        count += 1
+    else:
+        print(f'УРА!!!! Число ваших попыток {count}. Оптимальное число попыток 4')
