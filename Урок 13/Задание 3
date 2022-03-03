@@ -11,6 +11,7 @@ def is_valid_digit(user_input):
     else:
         return False
 
+
 def is_valid_num(num):
     if num.isdigit():
         n = int(num)
@@ -44,6 +45,7 @@ def play():
         user_num = int(num)
         game(secret_number(user_num), user_num)
         break
+
 
 def replay():
     while True:
@@ -79,5 +81,6 @@ def game(secret_number, user_num):
             print(f'УРА! Вы угадали заданное число за {count} попыток')
             replay()
             break
+
 
 play()
