@@ -1,0 +1,21 @@
+from random import randint
+
+user_num = int(input("Введите число от 1 до 100: "))
+x, y, count = 1, 100, 1
+secret_num = randint(x, y)
+if user_num == secret_num:
+    print('С первого раза!')
+else:
+    while secret_num != user_num:
+        if user_num > secret_num:
+            print("Загаданное число больше: ", secret_num, 'попытка', count)
+            x = secret_num
+            secret_num = randint(x, y)
+            count += 1
+        elif user_num < secret_num:
+            print("Загаданное число меньше: ", secret_num, 'попытка', count)
+            y = secret_num
+            secret_num = randint(x, y)
+            count += 1
+    print(user_num)
+    print('Я угадал, с', count, 'попытки')
