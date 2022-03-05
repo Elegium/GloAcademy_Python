@@ -1,0 +1,132 @@
+from random import *
+
+
+def answen_isalpha(answen):
+    if answen.isalpha():
+        if answen == 'ДА' or answen == 'НЕТ':
+            return True
+        else:
+            print('Не корректный ввод. Введите Да или Нет')
+            return False
+    else:
+        print('Не корректный ввод. Введите Да или Нет')
+        return False
+
+
+def ask_question(question):
+    print(question, 'Нажмите Да или Нет')
+    answen = input().upper()
+    while answen_isalpha(answen) != True:
+        print(question, 'Нажмите Да или Нет')
+        answen = input().upper()
+    if answen == 'ДА':
+        return True
+    else:
+        return False
+
+
+def generation_password(length, chars):
+    password = ''
+    for i in range(int(length)):
+        random_index = randint(0, len(chars) - 1)
+        password += chars[random_index]
+    return password
+
+
+def count_password(count, length, chars):
+    for _ in range(int(count)):
+        print(generation_password(length, chars))
+
+
+def num_isdigit(num):
+    if num.isdigit():
+        return True
+    else:
+        return False
+
+
+def play():
+    print(
+        'Привет. Я генератор паролей.\nЯ задам пару уточняющих вопросов, на основе которых сгенерируем пароль.\nДавай начнемю')
+    count_password(count_pass(), length_pass(), enabled_pass())
+
+
+def count_pass():
+    print('Введите количество паролей')
+    count = input()
+    while num_isdigit(count) != True:
+        print('Не корректный ввод. Введите число')
+        print('Введите количество паролей')
+        count = input()
+    return count
+
+
+def length_pass():
+    print('Введите длину паролей')
+    length = input()
+    while num_isdigit(length) != True:
+        print('Не корректный ввод. Введите число')
+        print('Введите длину паролей')
+        length = input()
+    return length
+
+
+def enabled_pass():
+    digit_enabled = ask_question('Включать ли цифры?')
+
+    latin_lowercase_enabled = ask_question('Включать ли строчные латинские буквы?')
+
+    latin_uppercase_enabled = ask_question('Включать ли заглавные латинские буквы?')
+
+    rus_lowercase_enabled = ask_question('Включать ли строчные русские буквы?')
+
+    rus_uppercase_enabled = ask_question('Включать ли заглавные русские буквы?')
+
+    punctuations_enabled = ask_question('Включать ли знаки пунктуации?')
+
+    enabled_chars = ''
+
+    digit = '0123456789'
+
+    latin_lowercase_latter = 'abcdefghijklmnopqrstuvwxyz'
+
+    latin_uppercase_latter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+    rus_lowercase_latter = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+
+    rus_uppercase_latter = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+
+    punctuations = '!@#$%^&*+=_-?^'
+
+    if digit_enabled:
+        enabled_chars += digit
+    if latin_lowercase_enabled:
+        enabled_chars += latin_lowercase_latter
+    if latin_uppercase_enabled:
+        enabled_chars += latin_uppercase_latter
+    if rus_lowercase_enabled:
+        enabled_chars += rus_lowercase_latter
+    if rus_uppercase_enabled:
+        enabled_chars += rus_uppercase_latter
+    if punctuations_enabled:
+        enabled_chars += punctuations
+
+    return enabled_chars
+
+
+def replay():
+    while True:
+        print('Хотите еще раз сгенерировать пароли??? Да или Нет')
+        answen = input().upper()
+        while answen_isalpha(answen) != True:
+            print('Хотите еще раз сгенерировать пароли??? Да или Нет')
+            answen = input().upper()
+        if answen == 'ДА':
+            play()
+        else:
+            print('До скорой встречи')
+            break
+
+
+play()
+replay()
