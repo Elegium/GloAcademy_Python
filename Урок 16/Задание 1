@@ -1,0 +1,112 @@
+def create_field():
+    field = [['*'] * 3 for i in range(3)]
+    return field
+
+
+def print_field(field):
+    for i in range(3):
+        for j in range(3):
+            print(field[i][j], end='')
+        print()
+
+
+def win(field):
+    for i in range(3):
+        if field[i][0] != '*' and field[i][0] == field[i][1] == field[i][2]:
+            return True
+    for i in range(3):
+        if field[0][i] != '*' and field[0][i] == field[1][i] == field[2][i]:
+            return True
+    if field[0][0] != '*' and field[0][0] == field[1][1] == field[2][2]:
+        return True
+    if field[0][2] != '*' and field[0][2] == field[1][1] == field[2][0]:
+        return True
+    return False
+
+
+def end_game(field):
+    if win(field):
+        return True
+    for i in range(3):
+        for j in range(3):
+            if field[i][j] == '*':
+                return False
+    return True
+
+
+def latter_isalpha(latter):
+    if latter.isalpha():
+        if latter == 'д' or latter == 'н':
+            return True
+        else:
+            print('Не корректный ввод. Введите д или н')
+            return False
+    else:
+        print('Не корректный ввод. Введите д или н')
+        return False
+
+
+def row_isdigit(row):
+    if row.isdigit() and 1 <= int(row) <= 3:
+        return True
+    else:
+        print('Не корректный ввод')
+        print('Введите число от 1 до 3')
+        return False
+
+def col_isdigit(col):
+    if col.isdigit() and 1 <= int(col) <= 3:
+        return True
+    else:
+        print('Не корректный ввод')
+        print('Введите число от 1 до 3')
+        return False
+
+
+
+def replay():
+    print('Хотите сыграть еще???')
+    print('Если да введите д, если нет введите н')
+    latter = input().lower()
+    while latter_isalpha(latter) != True:
+        latter = input().lower()
+    if latter == 'д':
+        play()
+    else:
+        print('До встречи!')
+
+
+def play():
+    field = create_field()
+    print_field(field)
+
+    current_simbol = 'X'
+
+    while not end_game(field):
+        print_field(field)
+        print('Введите номер строки и номер столбца')
+        row = input()
+        while row_isdigit(row) != True:
+            row = input()
+        col = input()
+        while col_isdigit(col) != True:
+            col = input()
+        if field[int(row)- 1][int(col)-1] == 'X' or field[int(row)- 1][int(col)-1] == 'O':
+            print('Ваш соперник вас опередил!!!, Повторите ввод')
+            continue
+        else:
+            field[int(row) - 1][int(col) - 1] = current_simbol
+        if current_simbol == 'X':
+            current_simbol = 'O'
+        else:
+            current_simbol = 'X'
+    print_field(field)
+    if current_simbol == 'X':
+        print('Ура! Победил O')
+        replay()
+    else:
+        print('Ура! Победил X')
+        replay()
+
+
+play()
