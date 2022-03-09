@@ -38,6 +38,7 @@ def latter_isalpha(latter):
         print('Не корректный ввод. Введите д или н')
         return False
 
+
 def replay():
     print('Хотите сыграть еще???')
     print('Если да введите д, если нет введите н')
@@ -57,9 +58,6 @@ def check_user_word(user_word):
         print('Не корректный ввод.')
         print('Введите четырехзначное значное число. Числа не должны повторяться ')
         return False
-
-
-
 
 
 def play_game():
