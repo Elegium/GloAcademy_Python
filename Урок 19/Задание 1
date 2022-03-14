@@ -1,0 +1,141 @@
+from random import choice
+import os.path
+
+questions = [
+    'Сколько будет два плюс два умножить на два?',
+    'Бревно нужно распилить на 10 частей, сколько надо сделать распилов?',
+    'На двух руках 10 пальцев. Сколько пальцев на 5 руках?',
+    'Укол делают каждые полчаса, сколько нужно минут для трех уколов?',
+    'Пять свечей горело, две потухли. Сколько свечей осталось?',
+    'Сколько будет 2 + 3'
+]
+answers = [6, 9, 25, 60, 2, 5]
+
+
+def user_name():
+    print('Введите ваше имя')
+    print('Имя не может содержать цифры и смволы')
+    while True:
+        name = input().title()
+        if name.isalpha():
+            return name
+        else:
+            print('Не корректный ввод')
+            print('Попробуйте ввести еще раз')
+
+
+def check_user_answer():
+    while True:
+        user_answer = input()
+        if user_answer.isdigit():
+            return int(user_answer)
+        else:
+            print('Пожалуйста, введите число!')
+
+
+def latter_isalpha(latter):
+    if latter.isalpha():
+        if latter == 'д' or latter == 'н':
+            return True
+        else:
+            print('Не корректный ввод. Введите д или н')
+            return False
+    else:
+        print('Не корректный ввод. Введите д или н')
+        return False
+
+
+def creation_dict(questions, answers):
+    dict_question_answer = dict(zip(questions, answers))
+    return dict_question_answer
+
+
+def random_questions(questions):
+    quest = choice(questions)
+    return quest
+
+
+def questionnaire(dict_question_answer):
+    count_right_answers, question_number_counter, s = 0, 1, []
+    while len(s) != len(questions):
+        r_quest = random_questions(questions)
+        if r_quest not in s:
+            s.append(r_quest)
+            print(f'Вопрос № {question_number_counter}\n{r_quest}')
+            print('Введите свой ответ')
+            user_answer = check_user_answer()
+            question_number_counter += 1
+            if int(user_answer) == dict_question_answer[r_quest]:
+                count_right_answers += 1
+    return count_right_answers
+
+
+def diagnosis(count_right, name, questions):
+    difference = len(questions) - 5
+    if 0 <= count_right <= difference:
+        print(name, 'Идиот')
+        return 'Идиот'
+    elif difference < count_right <= 1 + difference:
+        print(name, 'Кретин')
+        return 'Кретин'
+    elif 1 + difference < count_right <= 2 + difference:
+        print(name, 'Дурак')
+        return 'Дурак'
+    elif 2 + difference < count_right <= 3 + difference:
+        print(name, 'Нормальный')
+        return 'Нормальный'
+    elif 3 + difference < count_right <= 4 + difference:
+        print(name, 'Талант')
+        return 'Талант'
+    elif 4 + difference < count_right <= len(questions):
+        print(name, 'Гений')
+        return 'Гений'
+
+
+def replay_questionnaire():
+    while True:
+        print('Хотите повторить???')
+        print('Если да введите д, если нет введите н')
+        latter = input().lower()
+        while latter_isalpha(latter) != True:
+            latter = input().lower()
+        if latter == 'д':
+            return False
+        else:
+            print('До встречи!')
+            return True
+
+
+def create_table():
+    name_tabl, count_table, result_tabl = 'Имя', 'Кол-во правильных ответов', 'Результат'
+    file = open('Users_Data.txt', 'w')
+    format_table = (f'{name_tabl:10}{count_table:30}{result_tabl:10}\n')
+    file.write(format_table)
+    file.close()
+    return True
+
+
+def wtite_a_file(name, count_right, diagnos):
+    file = open('Users_Data.txt', 'a')
+    user_data = (f'{name:10}{str(count_right):30}{diagnos:30}\n')
+    file.write(user_data)
+    file.close()
+
+
+def play():
+    while True:
+        print('Добро пожаловать в "My-Tester"')
+        name = user_name()
+        dict_question_answer = creation_dict(questions, answers)
+        count_right = questionnaire(dict_question_answer)
+        diagnos = diagnosis(count_right, name, questions)
+        if os.path.exists('Users_Data.txt'):
+            wtite_a_file(name, count_right, diagnos)
+        else:
+            create_table()
+            wtite_a_file(name, count_right, diagnos)
+        if replay_questionnaire():
+            break
+
+
+play()
