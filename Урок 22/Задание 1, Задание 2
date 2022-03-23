@@ -1,0 +1,298 @@
+from random import choice
+import os.path
+import jsonpickle
+import json
+
+
+class Question:
+    def __init__(self, text, answer):
+        self.text = text
+        self.answer = answer
+
+
+class QestionsStorage:
+    def creata_questions_file(self):
+        if not os.path.exists('Questions.json'):
+            question = ['Сколько будет два плюс два умножить на два?, 6',
+                        'Бревно нужно распилить на 10 частей, сколько надо сделать распилов?, 9',
+                        'На двух руках 10 пальцев. Сколько пальцев на 5 руках?, 25',
+                        'Укол делают каждые полчаса, сколько нужно минут для трех уколов?, 60',
+                        'Пять свечей горело, две потухли. Сколько свечей осталось?, 2',
+                        'Сколько будет 2 + 3?, 5',
+                        ]
+            quest = []
+            for i in question:
+                text = i.split('?')[0] + '?'
+                answer = i.split('?')[1].strip().strip(',')
+
+                quest.append({'text': text,
+                              'answer': answer}
+                             )
+            jsonpickle.set_encoder_options('json', indent=4,
+                                           separators=(',', ': '),
+                                           ensure_ascii=False
+                                           )
+
+            data = jsonpickle.encode(quest)
+            with open('Questions.json', 'w') as file:
+                file.writelines(data)
+
+    def del_question(self):
+        print('Хотите удалить вопрос из существующих? Если да нажмите д, если нет нажмите н')
+        latter = input().lower()
+        while latter_isalpha(latter) != True:
+            latter = input().lower()
+        if latter.lower() == 'д':
+            with open('Questions.json', 'r') as file:
+                text = json.load(file)
+                question = []
+                for i in range(1, len(text) + 1):
+                    print(f"Вопрос{i}: {text[i - 1].get('text')}")
+                    print('Хотите удалить вопрос? Если да нажмите д, если нет нажмите н')
+                    latter = input().lower()
+                    while latter_isalpha(latter) != True:
+                        latter = input().lower()
+                    if latter.lower() == 'н':
+                        question.append({"py/object": text[i - 1].get('py/object'),
+                                         "text": text[i - 1].get('text'),
+                                         "answer": text[i - 1].get('answer')})
+                        jsonpickle.set_encoder_options('json', indent=4,
+                                                       separators=(',', ': '),
+                                                       ensure_ascii=False
+                                                       )
+                        file_data = jsonpickle.encode(question)
+                        file = open('Questions.json', 'w')
+                        file.writelines(file_data)
+
+    def uppend_question(self, question):
+        print('Хотите добавить новый вопрос?? Если да нажмите д. Если нет нажмите н')
+        latter = input().lower()
+        while latter_isalpha(latter) != True:
+            latter = input().lower()
+        if latter == 'д':
+            print('Введите новый вопрос.\nОтвет на вопрос должен быть числом.\nВосклицательный знак ставить не нужно')
+            text = input()
+            while True:
+                if '?' in text:
+                    print('Не корректный ввод.\nВосклицательный знак не нужен')
+                    text = input()
+                else:
+                    break
+            print('Введите ответ. Ответ должен быть целым числом')
+            answer = check_user_answer()
+            question.append(Question(text + '?', answer))
+        jsonpickle.set_encoder_options('json', indent=4,
+                                       separators=(',', ': '),
+                                       ensure_ascii=False
+                                       )
+        file_data = jsonpickle.encode(question)
+        file = open('Questions.json', 'w')
+        file.writelines(file_data)
+
+    def get_all(self):
+        questions = []
+        with open('Questions.json', 'r') as file:
+            text = json.load(file)
+            for i in text:
+                text_question = i.get('text')
+                answer = i.get('answer')
+                questions.append(Question(text_question, int(answer)))
+            return questions
+
+
+class User:
+    def __init__(self, name, count_right_answers=0, result='Неизвестно'):
+        self.name = name
+        self.count_right_answers = count_right_answers
+        self.result = result
+
+    def accept_right_answers(self):
+        self.count_right_answers += 1
+
+    def set_result(self, result):
+        self.result = result
+
+
+class FileProvider:
+    def get(self, path):
+        file = open(path, 'r')
+        data = file.read()
+        file.close()
+        return data
+
+    def append(self, path, data):
+        file = open(path, 'a')
+        data = file.write(data)
+        file.close()
+
+    def append2(self, path, data):
+        file = open(path, 'w')
+        data = file.write(data)
+        file.close()
+
+
+def user_name():
+    print('Введите ваше имя')
+    print('Имя не может содержать цифры и символы')
+    while True:
+        name = input().title()
+        if name.isalpha():
+
+            return name
+        else:
+            print('Не корректный ввод')
+            print('Попробуйте ввести еще раз')
+
+
+def check_user_answer():
+    while True:
+        user_answer = input()
+        if user_answer.isdigit():
+            return int(user_answer)
+        else:
+            print('Пожалуйста, введите число!')
+
+
+def latter_isalpha(latter):
+    if latter.isalpha():
+        if latter == 'д' or latter == 'н':
+            return True
+        else:
+            print('Не корректный ввод. Введите д или н')
+            return False
+    else:
+        print('Не корректный ввод. Введите д или н')
+        return False
+
+
+def random_questions(questions):
+    quest = choice(questions)
+    return quest
+
+
+def questionnaire(questions, user):
+    question_number_counter, s = 1, []
+    while len(s) != len(questions):
+        r_quest = random_questions(questions)
+        if r_quest.text not in s:
+            s.append(r_quest.text)
+            print(f'Вопрос № {question_number_counter}\n{r_quest.text}')
+            print('Введите свой ответ')
+            user_answer = check_user_answer()
+            question_number_counter += 1
+            if int(user_answer) == r_quest.answer:
+                user.accept_right_answers()
+    return user.count_right_answers
+
+
+def diagnosis(user, questions):
+    difference = len(questions) - 5
+    results = ''
+    if 0 <= user.count_right_answers <= difference:
+        print(user.name, 'Идиот')
+        results += 'Идиот'
+    elif difference < user.count_right_answers <= 1 + difference:
+        print(user.name, 'Кретин')
+        results += 'Кретин'
+    elif 1 + difference < user.count_right_answers <= 2 + difference:
+        print(user.name, 'Дурак')
+        results += 'Дурак'
+    elif 2 + difference < user.count_right_answers <= 3 + difference:
+        print(user.name, 'Нормальный')
+        results += 'Нормальный'
+    elif 3 + difference < user.count_right_answers <= 4 + difference:
+        print(user.name, 'Талант')
+        results += 'Талант'
+    elif 4 + difference < user.count_right_answers <= len(questions):
+        print(user.name, 'Гений')
+        results += 'Гений'
+
+    return user.set_result(results)
+
+
+def replay_questionnaire():
+    while True:
+        print('Хотите повторить???')
+        print('Если да введите д, если нет введите н')
+        latter = input().lower()
+        while latter_isalpha(latter) != True:
+            latter = input().lower()
+        if latter == 'д':
+            return False
+        else:
+            print('До встречи!')
+            return True
+
+
+def create_table():
+    name_tabl, count_table, result_tabl = 'Имя', 'Кол-во правильных ответов', 'Результат'
+    file_name = 'Users_Data.json'
+    file_provider = FileProvider()
+    file_provider.append2(file_name, f'{name_tabl:10}#{count_table:30}#{result_tabl:10}\n')
+
+    return True
+
+
+class UsersResultStorage:
+    def safe(self, user):
+        file_name = 'Users_Data.json'
+        data = f'{user.name:10}#{str(user.count_right_answers):30}#{user.result:10}\n'
+        file_provider = FileProvider()
+        file_provider.append(file_name, data)
+
+    def get_all(self):
+        file_name = 'Users_Data.json'
+
+        file_provider = FileProvider()
+        data = file_provider.get(file_name).strip('\n')
+        data = data.split('\n')
+        users = []
+
+        for line in data:
+            values = line.split('#')
+            user = User(values[0], values[1], values[2])
+            users.append(user)
+
+        return users
+
+
+def print_result_user_data(userresultstorage):
+    print('Хотите просмотреть результаты')
+    print('Если да введите д, если нет введите н')
+    latter = input().lower()
+    while latter_isalpha(latter) != True:
+        latter = input().lower()
+    if latter == 'д':
+        users = userresultstorage.get_all()
+
+        for user in users:
+            print(f'{user.name:10}{user.count_right_answers:30}{user.result}')
+
+
+def play():
+    while True:
+        print('Добро пожаловать в "My-Tester"')
+        name = user_name()
+        user = User(name)
+        questionsStorage = QestionsStorage()
+        questionsStorage.creata_questions_file()
+        questions = questionsStorage.get_all()
+        questionnaire(questions, user)
+        diagnosis(user, questions)
+        userresultstorage = UsersResultStorage()
+        if os.path.exists(
+                'Users_Data.json'):  # Импортируем os.path и exists проверяем есть ли у нас такой файл в проекте
+            # вывод False или True
+            userresultstorage.safe(user)
+        else:
+            create_table()
+            userresultstorage.safe(user)
+        print_result_user_data(userresultstorage)
+        questionsStorage.uppend_question(questions)
+        questionsStorage.del_question()
+
+        if replay_questionnaire():
+            break
+
+
+play()
