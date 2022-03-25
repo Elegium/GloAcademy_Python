@@ -113,7 +113,7 @@ display.fill(pygame.Color('white'))
 randomPointBall = RandomPointBall(display)
 
 balls = []
-for i in range(2):
+for i in range(5):
     billyardBall = BillyardBall(display)
     billyardBall.show()
     balls.append(billyardBall)
