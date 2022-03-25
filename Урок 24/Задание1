@@ -43,7 +43,8 @@ class Ball:
         return count_ball
 
     def print_count(self, text):
-
+        pygame.draw.rect(display, (255, 255, 255),
+                         (50, 20, 50, 40))
         self.font = pygame.font.Font(None, 40)
         self.text2 = self.font.render(str(count_ball), True, "red")
         self.text_rect = self.text2.get_rect()
