@@ -1,0 +1,11 @@
+from pyowm import OWM
+
+owm = OWM('4ce531384728619133f1a42db6658301')
+city = 'Москва'
+mgr = owm.weather_manager()
+
+observation = mgr.weather_at_place(city)
+w = observation.weather
+
+t = w.temperature("celsius")
+print(f"В городе {city} температура {t['temp']} градусов цельсия")
