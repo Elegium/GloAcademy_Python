@@ -1,0 +1,296 @@
+import json
+import os
+
+
+def answer_isalpha():
+    answer = input()
+    while True:
+        if answer.isalpha():
+            break
+        else:
+            print('Введите букву')
+            answer = input()
+    return answer
+
+
+def latter_isalpha():
+    answer = answer_isalpha()
+    while True:
+        if answer == 'д':
+            return True
+        elif answer == 'н':
+            return False
+        else:
+            print('Не корректный ввод. Введите д или н')
+            answer = input()
+
+
+def answer_isdigit():
+    answer = input()
+    while True:
+        if answer.isdigit():
+            break
+        else:
+            print('Введите цифру')
+            answer = input()
+    return answer
+
+
+def data_input_student():
+    print('----------------------------')
+    print('Введите данные о учениках')
+    print('----------------------------')
+    print('Введите Фамилию:')
+    surname = answer_isalpha()
+    print('Введите Имя:')
+    name = answer_isalpha()
+    print('Введите Отчество:')
+    patronymic = answer_isalpha()
+    print('Введите возраст студента:')
+    age = answer_isdigit()
+    print('Введите номер класса без буквы:')
+    num_class = answer_isdigit()
+    print('У класса есть буква??? Если Да - д, Нет - н')
+    answer = latter_isalpha()
+    if answer:
+        print('Введите букву класса:')
+        latter_class = answer_isalpha()
+        while True:
+            if len(latter_class) == 1:
+                break
+            else:
+                print('Введите одну букву')
+                latter_class = answer_isalpha()
+        num_class += latter_class.upper()
+    print('----------------------------')
+    return surname, name, patronymic, age, num_class
+
+
+def data_input_school():
+    print('----------------------------')
+    print('Введите адрес школы')
+    print('----------------------------')
+    city = input('Введите город: ')
+    street = input('Введите улицу: ')
+    house = input('Введите номер дома: ')
+    print('----------------------------')
+    print('Введите название школы')
+    print('----------------------------')
+    nameschool = input()
+    return city, street, house, nameschool
+
+
+class Provider:
+    def create_json(self, name_file, data):
+        with open(name_file, 'w') as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+
+    def load_json(self, name_file):
+        with open(name_file) as file:
+            info = json.load(file)
+        return info
+
+    def replay_json(self, name_file, data):
+        with open(name_file, 'a') as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+
+
+class Students:
+    def __init__(self, surname, name, patronymic, age, num_class):
+        self.surname = surname
+        self.name = name
+        self.patronymic = patronymic
+        self.age = age
+        self.num_class = num_class
+
+    def add_student(self, infojsonstud):
+        student = {'Фамилия': self.surname,
+                   'Имя': self.name,
+                   'Отчество': self.patronymic,
+                   'Возраст': self.age,
+                   'Номер класса': self.num_class}
+
+        infojsonstud['Студенты'].append(student)
+        return infojsonstud
+
+
+class InfoStudent:
+    def create_student(self):
+        students = {'Студенты': [{'Фамилия': 'Иванов',
+                                  'Имя': 'Иван',
+                                  'Отчество': 'Иванович',
+                                  'Возраст': '23',
+                                  'Номер класса': '12б'},
+
+                                 {'Фамилия': 'Иванов',
+                                  'Имя': 'Иван',
+                                  'Отчество': 'Иванович',
+                                  'Возраст': '30',
+                                  'Номер класса': '12б'}]}
+
+        return students
+
+    def count_students(self, students):
+        if not os.path.exists('info_student.json'):
+            return len(students['Студенты'])
+        else:
+            return len(students['Студенты'])
+
+    def remove_student(self, infojsonstud):
+        for i in range(len(infojsonstud['Студенты'])):
+            print(f"№{i + 1} ФИО {infojsonstud['Студенты'][i]['Фамилия']} "
+                  f"{infojsonstud['Студенты'][i]['Имя']} "
+                  f"{infojsonstud['Студенты'][i]['Фамилия']}\n"
+                  f"Возраст {infojsonstud['Студенты'][i]['Возраст']}\n"
+                  f"Номер класса {infojsonstud['Студенты'][i]['Номер класса']}")
+        print('----------------------------------------------------------------------')
+        print('Выберете номер студента которого вы хотите удалить')
+        print('----------------------------------------------------------------------')
+        answer = input()
+        while True:
+            if answer.isdigit():
+                break
+            else:
+                answer = input()
+        del infojsonstud['Студенты'][int(answer) - 1]
+        return infojsonstud
+
+    def print_students(self, infojson):
+        print('----------------------------------------------------------------------')
+        print('Хотите получить информацию о студентах в школе? Если Да - д, Нет - н')
+        print('----------------------------------------------------------------------')
+        answrs = latter_isalpha()
+        if answrs:
+            print(f"Полная информация о студентах")
+            for i in range(len(infojson['Студенты'])):
+                print('------------------------------------------------------')
+                print(f"№{i + 1} ФИО {infojson['Студенты'][i]['Фамилия']} "
+                      f"{infojson['Студенты'][i]['Имя']} "
+                      f"{infojson['Студенты'][i]['Фамилия']}\n"
+                      f"Возраст {infojson['Студенты'][i]['Возраст']}\n"
+                      f"Номер класса {infojson['Студенты'][i]['Номер класса']}")
+                print('------------------------------------------------------')
+
+
+class School:
+    def __init__(self, city, street, house, nameschool, count_student):
+        self.city = city
+        self.street = street
+        self.house = house
+        self.nameschool = nameschool
+        self.count_student = count_student
+
+    def create_dict_info(self):
+        info_school = {}
+        info_school['Школа'] = []
+        info_school['Школа'].append(
+            {'Город': self.city,
+             'Улица': self.street,
+             'Дом': self.house,
+             'Название школы': self.nameschool,
+             'Количество студентов': self.count_student})
+        return info_school
+
+
+class InfoSchool:
+    def information_change(self, infojson):
+        print('Хотите хотите изменить город? Если Да - д, Нет - н')
+        answrs = latter_isalpha()
+        if answrs:
+            infojson['Школа'][0]['Город'] = input('Введите город: ')
+        print('Хотите хотите изменить улицу? Если Да - д, Нет - н')
+        answrs = latter_isalpha()
+        if answrs:
+            infojson['Школа'][0]['Улица'] = input('Введите улицу: ')
+        print('Хотите хотите изменить дом? Если Да - д, Нет - н')
+        answrs = latter_isalpha()
+        if answrs:
+            infojson['Школа'][0]['Дом'] = input('введите дом: ')
+        print('Название школы? Если Да - д, Нет - н')
+        answrs = latter_isalpha()
+        if answrs:
+            infojson['Школа'][0]['Название школы'] = input('введите название школы: ')
+        return infojson
+
+    def print_info(self, infojson, count_student):
+        print('Хотите получить информацию о школе? Если Да - д, Нет - н')
+        answrs = latter_isalpha()
+        if answrs:
+            print(f"Полная информация о школе\n"
+                  f"----------Название школы------------д\n"
+                  f"{infojson['Школа'][0]['Название школы']}\n"
+                  f"----------Адрес школы-----------\n"
+                  f"Город {infojson['Школа'][0]['Город']}\n"
+                  f"Улица {infojson['Школа'][0]['Улица']}\n"
+                  f"Дом {infojson['Школа'][0]['Дом']}\n"
+                  f"Кол-во учеников\n"
+                  f"{count_student}")
+
+
+def play():
+    while True:
+        provider = Provider()
+        infoSchool = InfoSchool()
+        infoStudents = InfoStudent()
+        create_student = infoStudents.create_student()
+        if not os.path.exists('info_school.json'):
+            count_student = infoStudents.count_students(create_student)
+            city, street, house, nameschool = data_input_school()
+            school = School(city, street, house, nameschool, count_student)
+            info = school.create_dict_info()
+            provider.create_json('info_school.json', info)
+            infojson = provider.load_json('info_school.json')
+            provider.create_json('info_student.json', create_student)
+        infojsonstud = provider.load_json('info_student.json')
+        count_student = infoStudents.count_students(infojsonstud)
+        infojson = provider.load_json('info_school.json')
+        infoSchool.print_info(infojson, count_student)
+        print('----------------------------')
+        print('Хотите изменить информацию о школе? Если Да - д, Нет - н')
+        print('----------------------------')
+        answrs = latter_isalpha()
+        if answrs:
+            print('----------------------------')
+            infoSchool.print_info(infojson, count_student)
+            print('----------------------------')
+            removeinfo = infoSchool.information_change(infojson)
+            provider.create_json('info_school.json', removeinfo)
+            print('----------------------------')
+            infoSchool.print_info(infojson, count_student)
+        infojsonstud = provider.load_json('info_student.json')
+        infoStudents.print_students(infojsonstud)
+        while True:
+            print('----------------------------')
+            print('Хотите добавить студента? Если Да - д, Нет - н')
+            print('----------------------------')
+            answrs = latter_isalpha()
+            if answrs:
+                surname, name, patronymic, age, num_class = data_input_student()
+                students = Students(surname, name, patronymic, age, num_class)
+                add_student = students.add_student(infojsonstud)
+                provider.create_json('info_student.json', add_student)
+                infojsonstud = provider.load_json('info_student.json')
+                infoStudents.print_students(infojsonstud)
+            else:
+                break
+        while True:
+            print('----------------------------')
+            print('Хотите удалить студента? Если Да - д, Нет - н')
+            print('----------------------------')
+            answrs = latter_isalpha()
+            if answrs:
+                remove_students = infoStudents.remove_student(infojsonstud)
+                provider.create_json('info_student.json', remove_students)
+                infojsonstud = provider.load_json('info_student.json')
+                infoStudents.print_students(infojsonstud)
+            else:
+                break
+        print('----------------------------')
+        print('Хотите выйти? Если Да - д, Нет - н')
+        print('----------------------------')
+        answrs = latter_isalpha()
+        if answrs:
+            quit()
+
+
+play()
