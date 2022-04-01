@@ -156,20 +156,15 @@ class InfoStudent:
         return infojsonstud
 
     def print_students(self, infojson):
-        print('----------------------------------------------------------------------')
-        print('Хотите получить информацию о студентах в школе? Если Да - д, Нет - н')
-        print('----------------------------------------------------------------------')
-        answrs = latter_isalpha()
-        if answrs:
-            print(f"Полная информация о студентах")
-            for i in range(len(infojson['Студенты'])):
-                print('------------------------------------------------------')
-                print(f"№{i + 1} ФИО {infojson['Студенты'][i]['Фамилия']} "
-                      f"{infojson['Студенты'][i]['Имя']} "
-                      f"{infojson['Студенты'][i]['Фамилия']}\n"
-                      f"Возраст {infojson['Студенты'][i]['Возраст']}\n"
-                      f"Номер класса {infojson['Студенты'][i]['Номер класса']}")
-                print('------------------------------------------------------')
+        print(f"Полная информация о студентах")
+        for i in range(len(infojson['Студенты'])):
+            print('------------------------------------------------------')
+            print(f"№{i + 1} ФИО {infojson['Студенты'][i]['Фамилия']} "
+                  f"{infojson['Студенты'][i]['Имя']} "
+                  f"{infojson['Студенты'][i]['Фамилия']}\n"
+                  f"Возраст {infojson['Студенты'][i]['Возраст']}\n"
+                  f"Номер класса {infojson['Студенты'][i]['Номер класса']}")
+            print('------------------------------------------------------')
 
 
 class School:
@@ -213,18 +208,15 @@ class InfoSchool:
         return infojson
 
     def print_info(self, infojson, count_student):
-        print('Хотите получить информацию о школе? Если Да - д, Нет - н')
-        answrs = latter_isalpha()
-        if answrs:
-            print(f"Полная информация о школе\n"
-                  f"----------Название школы------------д\n"
-                  f"{infojson['Школа'][0]['Название школы']}\n"
-                  f"----------Адрес школы-----------\n"
-                  f"Город {infojson['Школа'][0]['Город']}\n"
-                  f"Улица {infojson['Школа'][0]['Улица']}\n"
-                  f"Дом {infojson['Школа'][0]['Дом']}\n"
-                  f"Кол-во учеников\n"
-                  f"{count_student}")
+        print(f"Полная информация о школе\n"
+              f"----------Название школы------------д\n"
+              f"{infojson['Школа'][0]['Название школы']}\n"
+              f"----------Адрес школы-----------\n"
+              f"Город {infojson['Школа'][0]['Город']}\n"
+              f"Улица {infojson['Школа'][0]['Улица']}\n"
+              f"Дом {infojson['Школа'][0]['Дом']}\n"
+              f"Кол-во учеников\n"
+              f"{count_student}")
 
 
 def play():
@@ -260,16 +252,19 @@ def play():
             removeinfo = infoSchool.information_change(infojson)
             provider.create_json('info_school.json', removeinfo)
             print('----------------------------')
+
         if int(answer) == 4:
             surname, name, patronymic, age, num_class = data_input_student()
             students = Students(surname, name, patronymic, age, num_class)
             add_student = students.add_student(infojsonstud)
             provider.create_json('info_student.json', add_student)
             infojsonstud = provider.load_json('info_student.json')
+
         if int(answer) == 5:
             remove_students = infoStudents.remove_student(infojsonstud)
             provider.create_json('info_student.json', remove_students)
             infojsonstud = provider.load_json('info_student.json')
+
         if int(answer) == 3:
             infojsonstud = provider.load_json('info_student.json')
             infoStudents.print_students(infojsonstud)
