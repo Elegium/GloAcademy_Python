@@ -252,19 +252,16 @@ def play():
             removeinfo = infoSchool.information_change(infojson)
             provider.create_json('info_school.json', removeinfo)
             print('----------------------------')
-
         if int(answer) == 4:
             surname, name, patronymic, age, num_class = data_input_student()
             students = Students(surname, name, patronymic, age, num_class)
             add_student = students.add_student(infojsonstud)
             provider.create_json('info_student.json', add_student)
             infojsonstud = provider.load_json('info_student.json')
-
         if int(answer) == 5:
             remove_students = infoStudents.remove_student(infojsonstud)
             provider.create_json('info_student.json', remove_students)
             infojsonstud = provider.load_json('info_student.json')
-
         if int(answer) == 3:
             infojsonstud = provider.load_json('info_student.json')
             infoStudents.print_students(infojsonstud)
