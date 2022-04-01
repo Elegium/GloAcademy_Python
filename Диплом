@@ -228,68 +228,52 @@ class InfoSchool:
 
 
 def play():
+    provider = Provider()
+    infoSchool = InfoSchool()
+    infoStudents = InfoStudent()
+    create_student = infoStudents.create_student()
+    if not os.path.exists('info_school.json'):
+        count_student = infoStudents.count_students(create_student)
+        city, street, house, nameschool = data_input_school()
+        school = School(city, street, house, nameschool, count_student)
+        info = school.create_dict_info()
+        provider.create_json('info_school.json', info)
+        infojson = provider.load_json('info_school.json')
+        provider.create_json('info_student.json', create_student)
     while True:
-        provider = Provider()
-        infoSchool = InfoSchool()
-        infoStudents = InfoStudent()
-        create_student = infoStudents.create_student()
-        if not os.path.exists('info_school.json'):
-            count_student = infoStudents.count_students(create_student)
-            city, street, house, nameschool = data_input_school()
-            school = School(city, street, house, nameschool, count_student)
-            info = school.create_dict_info()
-            provider.create_json('info_school.json', info)
-            infojson = provider.load_json('info_school.json')
-            provider.create_json('info_student.json', create_student)
+        print('------------------------------------------')
+        print(f'1 - Получение информации о школе\n'
+              f'2 - Изменение информации о школе\n'
+              f'3 - Просмотреть учеников школы\n'
+              f'4 - Добавить ученика в школу\n'
+              f'5 - Исключить ученика из школы\n'
+              f'0 - Выход\n')
+        print('Введите цифру для получения информации')
+        answer = answer_isdigit()
+        print('------------------------------------------')
         infojsonstud = provider.load_json('info_student.json')
         count_student = infoStudents.count_students(infojsonstud)
         infojson = provider.load_json('info_school.json')
-        infoSchool.print_info(infojson, count_student)
-        print('----------------------------')
-        print('Хотите изменить информацию о школе? Если Да - д, Нет - н')
-        print('----------------------------')
-        answrs = latter_isalpha()
-        if answrs:
-            print('----------------------------')
+        if int(answer) == 1:
             infoSchool.print_info(infojson, count_student)
-            print('----------------------------')
+        if int(answer) == 2:
             removeinfo = infoSchool.information_change(infojson)
             provider.create_json('info_school.json', removeinfo)
             print('----------------------------')
-            infoSchool.print_info(infojson, count_student)
-        infojsonstud = provider.load_json('info_student.json')
-        infoStudents.print_students(infojsonstud)
-        while True:
-            print('----------------------------')
-            print('Хотите добавить студента? Если Да - д, Нет - н')
-            print('----------------------------')
-            answrs = latter_isalpha()
-            if answrs:
-                surname, name, patronymic, age, num_class = data_input_student()
-                students = Students(surname, name, patronymic, age, num_class)
-                add_student = students.add_student(infojsonstud)
-                provider.create_json('info_student.json', add_student)
-                infojsonstud = provider.load_json('info_student.json')
-                infoStudents.print_students(infojsonstud)
-            else:
-                break
-        while True:
-            print('----------------------------')
-            print('Хотите удалить студента? Если Да - д, Нет - н')
-            print('----------------------------')
-            answrs = latter_isalpha()
-            if answrs:
-                remove_students = infoStudents.remove_student(infojsonstud)
-                provider.create_json('info_student.json', remove_students)
-                infojsonstud = provider.load_json('info_student.json')
-                infoStudents.print_students(infojsonstud)
-            else:
-                break
-        print('----------------------------')
-        print('Хотите выйти? Если Да - д, Нет - н')
-        print('----------------------------')
-        answrs = latter_isalpha()
-        if answrs:
+        if int(answer) == 4:
+            surname, name, patronymic, age, num_class = data_input_student()
+            students = Students(surname, name, patronymic, age, num_class)
+            add_student = students.add_student(infojsonstud)
+            provider.create_json('info_student.json', add_student)
+            infojsonstud = provider.load_json('info_student.json')
+        if int(answer) == 5:
+            remove_students = infoStudents.remove_student(infojsonstud)
+            provider.create_json('info_student.json', remove_students)
+            infojsonstud = provider.load_json('info_student.json')
+        if int(answer) == 3:
+            infojsonstud = provider.load_json('info_student.json')
+            infoStudents.print_students(infojsonstud)
+        if int(answer) == 0:
             quit()
 
 
